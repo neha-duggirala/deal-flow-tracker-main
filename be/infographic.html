@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DealFlow Assistant | AI-Powered Trade Analytics</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+<style>
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+.chart-container { position: relative; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto; height: 350px; max-height: 400px; }
+@media (max-width: 768px) { .chart-container { height: 250px; } }
+.architecture-box { background: #ffffff; border-left: 4px solid #06b6d4; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); padding: 1.5rem; border-radius: 0.5rem; }
+.code-block { background-color: #0f172a; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; font-family: monospace; font-size: 0.875rem; }
+.accent-border { border-top: 4px solid #f59e0b; }
+</style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+<div class="fixed top-0 left-0 w-full bg-blue-900 text-white p-4 shadow-md z-50 flex justify-between items-center">
+    <div class="text-xl font-bold flex items-center gap-2">
+        <span class="text-2xl">🌐</span> DealFlow Assistant
+    </div>
+    <div class="text-sm text-blue-200">Russian Federation ↔ India Trade Desk</div>
+</div>
+
+<div class="pt-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+
+    <div class="text-center my-10">
+        <h1 class="text-4xl font-extrabold text-blue-900 tracking-tight sm:text-5xl">Intelligent Deal Analysis Engine</h1>
+        <p class="mt-4 max-w-3xl mx-auto text-xl text-slate-600">
+            Monitoring communications between Russian Clients, Indian Suppliers, and SBER BD Specialists using GigaChat LLM. Real-time bottleneck detection and actionable task generation.
+        </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <div class="bg-white rounded-lg shadow-md p-6 border-b-4 border-blue-500">
+            <h3 class="text-sm font-medium text-slate-500 uppercase tracking-wider">Active Deals</h3>
+            <div class="mt-2 text-3xl font-bold text-slate-900">42</div>
+            <p class="mt-1 text-sm text-emerald-600">▲ 12% from last quarter</p>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-6 border-b-4 border-emerald-500">
+            <h3 class="text-sm font-medium text-slate-500 uppercase tracking-wider">Total Volume (USD)</h3>
+            <div class="mt-2 text-3xl font-bold text-slate-900">$1.84B</div>
+            <p class="mt-1 text-sm text-emerald-600">Across Pharma, Energy, Tech</p>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-6 border-b-4 border-amber-500">
+            <h3 class="text-sm font-medium text-slate-500 uppercase tracking-wider">Detected Bottlenecks</h3>
+            <div class="mt-2 text-3xl font-bold text-amber-600">7</div>
+            <p class="mt-1 text-sm text-slate-500">Requires Specialist Intervention</p>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-6 border-b-4 border-cyan-500">
+            <h3 class="text-sm font-medium text-slate-500 uppercase tracking-wider">Avg Resolution Time</h3>
+            <div class="mt-2 text-3xl font-bold text-slate-900">14 Days</div>
+            <p class="mt-1 text-sm text-emerald-600">▼ 3 days using AI Assistant</p>
+        </div>
+    </div>
+
+    <div class="mb-12">
+        <h2 class="text-2xl font-bold text-blue-900 mb-2">Deal Pipeline Distribution</h2>
+        <p class="text-slate-600 mb-6">
+            This section visualizes the current state of the trade pipeline. The donut chart provides a high-level view of deal statuses, helping relationship managers prioritize stalled negotiations. The bar chart breaks down active deals by industrial sector, highlighting the strongest trade corridors between Russia and India.
+        </p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-lg font-bold text-center mb-4 text-slate-700">Current Status Breakdown</h3>
+                <div class="chart-container">
+                    <canvas id="statusChart"></canvas>
+                </div>
+                <p class="text-center text-sm text-slate-500 mt-4">Shows proportion of deals requiring immediate action vs. progressing normally.</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-lg font-bold text-center mb-4 text-slate-700">Trade Volume by Sector</h3>
+                <div class="chart-container">
+                    <canvas id="sectorChart"></canvas>
+                </div>
+                <p class="text-center text-sm text-slate-500 mt-4">Compares total financial volume across key export/import industries.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function wrapLabel(str) {
+    const limit = 16;
+    const words = str.split(' ');
+    let lines = [];
+    let currentLine = '';
+    for (let i = 0; i < words.length; i++) {
+        if ((currentLine + words[i]).length > limit) {
+            if (currentLine) lines.push(currentLine.trim());
+            currentLine = words[i] + ' ';
+        } else {
+            currentLine += words[i] + ' ';
+        }
+    }
+    if (currentLine) lines.push(currentLine.trim());
+    return lines;
+}
+
+const tooltipConfig = {
+    plugins: {
+        tooltip: {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            }
+        }
+    }
+};
+
+const statusLabelsRaw = ["Pending Review", "Active Negotiation", "Blocked/Stalled", "Successfully Closed"];
+const statusLabelsWrapped = statusLabelsRaw.map(lbl => wrapLabel(lbl));
+
+const statusCtx = document.getElementById('statusChart').getContext('2d');
+new Chart(statusCtx, {
+    type: 'doughnut',
+    data: {
+        labels: statusLabelsWrapped,
+        datasets: [{
+            data: [12, 18, 7, 15],
+            backgroundColor: ['#06b6d4', '#1e3a8a', '#f59e0b', '#10b981'],
+            borderWidth: 0
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { position: 'right' },
+            ...tooltipConfig.plugins
+        }
+    }
+});
+
+const sectorLabelsRaw = ["Pharmaceuticals & Medical", "Energy & Oil", "IT & Technology Services", "Heavy Machinery", "Textiles & Apparel"];
+const sectorLabelsWrapped = sectorLabelsRaw.map(lbl => wrapLabel(lbl));
+
+const sectorCtx = document.getElementById('sectorChart').getContext('2d');
+new Chart(sectorCtx, {
+    type: 'bar',
+    data: {
+        labels: sectorLabelsWrapped,
+        datasets: [{
+            label: 'Volume (Millions USD)',
+            data: [450, 820, 210, 310, 50],
+            backgroundColor: '#1e3a8a',
+            borderRadius: 4
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: { beginAtZero: true }
+        },
+        plugins: {
+            ...tooltipConfig.plugins
+        }
+    }
+});
+
+const trace1 = {
+  x: [5, 12, 25, 40, 55, 70, 85, 100, 120, 150],
+  y: [2, 4, 5, 8, 14, 12, 18, 22, 30, 45],
+  mode: 'markers',
+  type: 'scattergl',
+  marker: {
+    size: 12,
+    color: [2, 4, 5, 8, 14, 12, 18, 22, 30, 45],
+    colorscale: 'Viridis',
+    showscale: true
+  },
+  text: ['Deal 1', 'Deal 2', 'Deal 3', 'Deal 4', 'Deal 5', 'Deal 6', 'Deal 7', 'Deal 8', 'Deal 9', 'Deal 10']
+};
+
+const layout = {
+  margin: { t: 20, b: 40, l: 40, r: 20 },
+  xaxis: { title: 'Message Count (Thread Length)' },
+  yaxis: { title: 'Days to Resolve Block' },
+  paper_bgcolor: 'rgba(0,0,0,0)',
+  plot_bgcolor: 'rgba(241,245,249,0.5)'
+};
+
+Plotly.newPlot('plotlyScatter', [trace1], layout, {displayModeBar: false});
+
+</script>
+</body>
+</html>

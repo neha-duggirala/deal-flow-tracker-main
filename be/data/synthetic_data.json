@@ -1,0 +1,322 @@
+[
+  {
+    "deal_id": "IND-RUS-2026-0042",
+    "sector": "Pharmaceuticals",
+    "parties": {
+      "client": "MedCorp Moscow (Russian Federation)",
+      "supplier": "BioPharma Mumbai (India)",
+      "specialist": "A. Sharma (BD India)"
+    },
+    "status": "Blocked",
+    "bottleneck": "Rupee-Ruble settlement rate disagreement",
+    "action_items": [
+      "Schedule rate negotiation call; propose Sberbank hedging product FX-Option-B."
+    ],
+    "communication_history": [
+      {
+        "timestamp": "2026-03-14T09:15:00Z",
+        "sender": "supplier",
+        "type": "email",
+        "content": "We cannot proceed with the shipment until the currency conversion rate for the INR payment is locked in at the rate discussed last week."
+      },
+      {
+        "timestamp": "2026-03-14T11:30:00Z",
+        "sender": "client",
+        "type": "email",
+        "content": "The central bank rates fluctuated. We need Sberbank to step in and provide a hedging option to finalize this tranche."
+      }
+    ]
+  },
+  {
+    "deal_id": "SBER-IND-RU-2026-002",
+    "sector": "Pharmaceuticals",
+    "parties": {
+      "client": "Main Chain LLC (Russian Federation)",
+      "supplier": "Sun Pharma / Biosintez (India)",
+      "specialist": "Sanjay Rao (Sber BD India - Bengaluru IT Hub)"
+    },
+    "status": "Processing / Documentary Verification",
+    "bottleneck": "Delays in mandatory Russian certification for new generic antibiotics [9, 10]",
+    "action_items": [
+      "Use GigaChat AI multi-agent system to automate the verification of export-import documentation.[1]",
+      "Expedite the issuance of electronic Bank Realisation Certificate (eBRC) for the current shipment.[2]",
+      "Schedule consultation for 'localization' support for Sun Pharma's expansion at the Penza plant.[9, 11]"
+    ],
+    "communication_history": [
+      {
+        "timestamp": "2026-03-14T10:00:00Z",
+        "type": "Chat",
+        "sender": "Russian Importer",
+        "content": "Retail value of the market is up 15%, we need these generics immediately to meet cardiovascular therapy demand.[9] Please have Sber check the SRVA liquidity."
+      }
+    ]
+  },
+  {
+    "deal_id": "SBER-IND-RU-2026-003",
+    "sector": "Logistics / Agriculture",
+    "parties": {
+      "client": "LLC Unifrost (Russian Federation)",
+      "supplier": "Marine Exports India (India)",
+      "specialist": "Vikram Singh (Sber BD India - New Delhi HQ)"
+    },
+    "status": "In-Transit / Logistics Coordination",
+    "bottleneck": "Transitioning from Suez Canal to INSTC Eastern Route (Kazakhstan/Turkmenistan) [12]",
+    "action_items": [
+      "Confirm 7% per annum interest rate on the Rupee surplus held in the supplier's corporate account.[13, 2]",
+      "Apply 20-40% transit tariff discount for the Eastern Route through the Sber-supported corridor framework.[12]"
+    ],
+    "communication_history": [
+      {
+        "timestamp": "2026-03-13T14:00:00Z",
+        "type": "Chat",
+        "sender": "supplier",
+        "content": "Does Sber handle the insurance for the rail section through Kazakhstan?"
+      },
+      {
+        "timestamp": "2026-03-13T15:00:00Z",
+        "type": "Chat",
+        "sender": "Sber Specialist",
+        "content": "Yes, we provide trade finance support. Note: Shipments via Astrakhan are currently facing transshipment shortages; we recommend the direct rail link via Incheh Borun.[12, 15]"
+      }
+    ]
+  },
+  {
+    "deal_id": "SBER-IND-RU-2026-004",
+    "sector": "Industrial Packaging / Chemicals",
+    "parties": {
+      "client": "Stupino Kvadrat SEZ Admin (Russian Federation)",
+      "supplier": "Flex Films Rus / UFlex Group (India)",
+      "specialist": "Elena Petrova (Sber BD India - Bengaluru Hub)"
+    },
+    "status": "Expansion / Investment Phase",
+    "bottleneck": "Capital account transaction approval for RUB 4.6 billion recycling facility [16]",
+    "action_items": [
+      "Match the supplier with reliable Russian chemical partners for ink sourcing within the 7-day service window.[2, 16]",
+      "Verify zero-rated VAT status for the export of machinery components for the Stupino facility.[12]"
+    ],
+    "communication_history": [
+      {
+        "timestamp": "2026-03-12T16:00:00Z",
+        "type": "Chat",
+        "sender": "SEZ Specialist",
+        "content": "Sber India team is processing the AD Code transfer for the machinery shipping bills. We are also vetting two local distributors for your barrier films.[2, 16]"
+      }
+    ]
+  },
+  {
+    "deal_id": "SBER-IND-RU-2026-005",
+    "sector": "Metals / Commodities",
+    "parties": {
+      "client": "Northern Steel LLC (Russian Federation)",
+      "supplier": "Tata Steel India (India)",
+      "specialist": "Priya Nair (Sber BD India - Mumbai Trade Desk)"
+    },
+    "status": "Settling / FX Conversion",
+    "bottleneck": "INR-RUB settlement timing and eBRC documentation for tax incentives",
+    "action_items": [
+      "Confirm contract currency clause and fixed conversion rate for final INR settlement.",
+      "Initiate letter of credit discounting to provide immediate liquidity upon shipment.",
+      "Validate eBRC issuance in the currency of the shipping bill to ensure export incentives."
+    ],
+    "communication_history": [
+      {
+        "timestamp": "2026-03-15T08:30:00Z",
+        "type": "Email",
+        "sender": "supplier",
+        "content": "Per our contract, we agreed on USD pricing with an INR settlement at 82.50. Please confirm Sberbank will execute the final currency conversion and credit the rupee proceeds to our account in India."
+      },
+      {
+        "timestamp": "2026-03-15T09:20:00Z",
+        "type": "Email",
+        "sender": "client",
+        "content": "We have initiated the RUB transfer to Sberbank's correspondent account. Ensure the funds are credited into Tata Steel's INN rupee account and that the eBRC is issued in INR for export incentive claims."
+      },
+      {
+        "timestamp": "2026-03-15T10:05:00Z",
+        "type": "Chat",
+        "sender": "specialist",
+        "content": "Sberbank confirms receipt of RUB funds. We will perform the internal conversion and credit the INR amount directly to your nominated account. Once posted, we will issue the eBRC in the shipping bill currency and share the document for your GST compliance."
+      },
+      {
+        "timestamp": "2026-03-15T11:00:00Z",
+        "type": "Chat",
+        "sender": "supplier",
+        "content": "Please also enable letter of credit discounting so we can access working capital immediately after shipment, rather than waiting for final settlement."
+      }
+    ]
+  },
+  {
+    "deal_id": "SBER-IND-RU-2026-006",
+    "sector": "Energy / Oil & Gas",
+    "parties": {
+      "client": "Reliance Industries (India)",
+      "supplier": "Rosneft (Russian Federation)",
+      "specialist": "Ankita Desai (Sber Energy Trade Desk)"
+    },
+    "status": "Negotiation / Ruble Settlement Pilot",
+    "bottleneck": "Shift to ruble-based settlement and establishing the HDFC–Gazprombank payment corridor for high-volume crude deliveries.",
+    "action_items": [
+      "Finalize the ruble payment corridor via HDFC Bank and Gazprombank for 500,000 bpd volumes.",
+      "Ensure eBRC issuance aligns with the currency agreed in the shipping bill and supports domestic tax incentives.",
+      "Monitor market impacts from the USD/Euro to RUB settlement shift and prepare mitigation steps for legacy suppliers."
+    ],
+    "communication_history": [
+      {
+        "timestamp": "2026-03-15T12:00:00Z",
+        "type": "Email",
+        "sender": "supplier",
+        "content": "As agreed, we will supply 500,000 bpd to Reliance under the new ruble settlement structure. Please confirm the HDFC–Gazprombank corridor is ready to process the first tranche."
+      },
+      {
+        "timestamp": "2026-03-15T12:45:00Z",
+        "type": "Email",
+        "sender": "client",
+        "content": "Reliance confirms readiness to settle in rubles and requests that Sberbank coordinate with HDFC and Gazprombank to ensure smooth conversion and crediting into our INR accounts."
+      },
+      {
+        "timestamp": "2026-03-15T13:20:00Z",
+        "type": "Chat",
+        "sender": "specialist",
+        "content": "Sberbank is aligning the payment corridor. We will issue the eBRC in the shipping bill currency and provide the compliance pack required for RBI/CBR reporting."
+      },
+      {
+        "timestamp": "2026-03-15T14:10:00Z",
+        "type": "Chat",
+        "sender": "supplier",
+        "content": "This move to ruble settlement is being watched closely; it will help India diversify away from traditional suppliers like Saudi Arabia while insulating the deal from Western financial volatility."
+      }
+    ]
+  },
+  {
+    "deal_id": "SBER-IND-RU-2026-007",
+    "sector": "Pharmaceuticals",
+    "parties": {
+      "client": "Russian Ministry of Health (Russian Federation)",
+      "supplier": "Dr. Reddy's Laboratories (India)",
+      "specialist": "Neha Kapoor (Sber Pharma Trade Desk)"
+    },
+    "status": "Localization / Regulatory Approval",
+    "bottleneck": "Certification and local production setup for high-demand generics in Russia, plus managing FX settlement for INR/RUB invoices.",
+    "action_items": [
+      "Support registration and certification of key generics (Omez, Nise, Ibuklin) with Russian regulators.",
+      "Structure a trade finance package that aligns with the 70% market share shift toward generics and provides working capital for local production facilities.",
+      "Ensure eBRC issuance in the invoice currency and integrate with Sberbank's localization financing for Kaluga manufacturing investments."
+    ],
+    "communication_history": [
+      {
+        "timestamp": "2026-03-16T09:00:00Z",
+        "type": "Email",
+        "sender": "supplier",
+        "content": "Dr. Reddy's is ready to expand local manufacturing through the Kaluga facility. Please advise on the Sberbank trade finance structure that supports localization and INR/RUB settlement of future export consignments."
+      },
+      {
+        "timestamp": "2026-03-16T09:45:00Z",
+        "type": "Email",
+        "sender": "client",
+        "content": "The Ministry wants to prioritize generics for diabetes and cardiovascular therapies, with an immediate need for 2M units per quarter. We need Sberbank to help standardize the FX settlement and ensure eBRC coverage for our tax incentives."
+      },
+      {
+        "timestamp": "2026-03-16T10:30:00Z",
+        "type": "Chat",
+        "sender": "specialist",
+        "content": "Sberbank will provide a structured trade finance solution, including pre-shipment credit and post-shipment eBRC issuance. We'll also coordinate with local regulators to fast-track the certification of key products, so the supply chain meets Russia's generics growth mandate."
+      },
+      {
+        "timestamp": "2026-03-16T11:15:00Z",
+        "type": "Chat",
+        "sender": "supplier",
+        "content": "With 104 Indian companies already active and the market share rising toward 70%, this localization push will lock in long-term volume and reduce logistics risk. We also want to align the payment terms with the ongoing INR-RUB settlement framework you established for energy deals."
+      }
+    ]
+  },
+  {
+    "deal_id": "SBER-IND-RU-2026-008",
+    "sector": "Agriculture / Food",
+    "parties": {
+      "client": "Main Chain LLC (Russian Federation)",
+      "supplier": "Greenfields Agro Exports (India)",
+      "specialist": "Rohan Mehta (Sber Agri Trade Desk)"
+    },
+    "status": "In-Transit / Retail Distribution",
+    "bottleneck": "Coordinating tariff paperwork and inventory planning for rising demand in rice and buffalo meat.",
+    "action_items": [
+      "Support partner search and contract execution for Indian rice and buffalo meat suppliers.",
+      "Enable cross-border payment routing for small-parcel e-commerce orders via Sberbank's trade finance backend.",
+      "Provide FX guidance for repeated shipments to ensure consistent rupee receivables for suppliers."
+    ],
+    "communication_history": [
+      {
+        "timestamp": "2026-03-17T08:00:00Z",
+        "type": "Email",
+        "sender": "supplier",
+        "content": "Russian retail chains are ordering larger volumes of rice and buffalo meat; please ensure Sberbank's partner search service can match us with new distribution partners and handle the required import documentation."
+      },
+      {
+        "timestamp": "2026-03-17T08:45:00Z",
+        "type": "Chat",
+        "sender": "specialist",
+        "content": "We are coordinating with Main Chain LLC to streamline customs clearance and set up recurring FX instructions so your payments arrive in rupees without delays."
+      }
+    ]
+  },
+  {
+    "deal_id": "SBER-IND-RU-2026-009",
+    "sector": "Manufacturing / Ceramics",
+    "parties": {
+      "client": "Russian Builder Corp (Russian Federation)",
+      "supplier": "Somany Ceramics (India)",
+      "specialist": "Priya Kashyap (Sber Trade Finance)"
+    },
+    "status": "Contracting / Customs",
+    "bottleneck": "Customs classification and timing of payments for high-value ceramic imports.",
+    "action_items": [
+      "Provide tariff classification support and ensure timely FX settlement for large-volume shipments.",
+      "Structure letter of credit facilities that align with project milestone payments.",
+      "Deliver transparency on import duties and local compliance requirements."
+    ],
+    "communication_history": [
+      {
+        "timestamp": "2026-03-17T09:15:00Z",
+        "type": "Email",
+        "sender": "client",
+        "content": "We need a reliable payment structure for our upcoming ceramic tile order. Please confirm the LC terms and whether Sberbank can lock in the INR/RUB rate for the next two tranches."
+      },
+      {
+        "timestamp": "2026-03-17T09:50:00Z",
+        "type": "Chat",
+        "sender": "specialist",
+        "content": "We'll issue an LC with step-down payment milestones and provide FX hedging guidance so your supplier receives a fixed INR amount while you budget in RUB."
+      }
+    ]
+  },
+  {
+    "deal_id": "SBER-IND-RU-2026-010",
+    "sector": "E-Commerce / Consumer Goods",
+    "parties": {
+      "client": "Moscow E-Market Ltd (Russian Federation)",
+      "supplier": "SpiceKart India (India)",
+      "specialist": "Ayesha Khan (Sber Small Parcel Finance)"
+    },
+    "status": "Fulfillment / Payments",
+    "bottleneck": "Reconciling cross-border parcel payments and ensuring small-shipment FX conversions are efficient.",
+    "action_items": [
+      "Enable end-to-end payment processing for online orders, including small-parcel FX conversions.",
+      "Support e-marketplace settlement reconciliation and provide reporting for customs compliance.",
+      "Offer a predictable FX rate mechanism for recurring small-value shipments."
+    ],
+    "communication_history": [
+      {
+        "timestamp": "2026-03-17T10:00:00Z",
+        "type": "Chat",
+        "sender": "supplier",
+        "content": "Our platform is seeing a surge in orders for spices and Ayurvedic cosmetics; we need Sberbank to handle the payment flow so buyers pay in RUB and we receive INR without manual reconciliation."
+      },
+      {
+        "timestamp": "2026-03-17T10:25:00Z",
+        "type": "Chat",
+        "sender": "specialist",
+        "content": "We're implementing a small-parcel settlement product that settles daily in INR and provides a customs-friendly invoice template for cross-border e-commerce."
+      }
+    ]
+  }
+]
