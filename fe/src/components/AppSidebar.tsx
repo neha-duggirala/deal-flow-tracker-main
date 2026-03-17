@@ -32,7 +32,10 @@ const AppSidebar = ({ activeView, onViewChange }: AppSidebarProps) => {
       className="h-screen flex flex-col border-r border-border bg-sidebar"
     >
       {/* Logo */}
-      <div className="flex items-center gap-2.5 px-4 h-14 border-b border-border">
+      <button
+        onClick={() => onViewChange("dashboard")}
+        className="flex items-center gap-2.5 px-4 h-14 border-b border-border hover:bg-muted/50 transition-colors cursor-pointer"
+      >
         <div className="h-8 w-8 rounded-lg bg-primary/15 border border-primary/30 flex items-center justify-center flex-shrink-0">
           <Zap className="h-4 w-4 text-primary" />
         </div>
@@ -42,7 +45,7 @@ const AppSidebar = ({ activeView, onViewChange }: AppSidebarProps) => {
             <p className="text-[10px] font-mono text-primary uppercase tracking-widest">AI Agent</p>
           </motion.div>
         )}
-      </div>
+      </button>
 
       {/* Nav */}
       <nav className="flex-1 py-3 px-2 space-y-1">

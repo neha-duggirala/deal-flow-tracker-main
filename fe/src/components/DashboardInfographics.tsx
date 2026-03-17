@@ -15,7 +15,7 @@ import {
 } from "recharts";
 import { Deal } from "@/data/types";
 import { MOCK_DEALS } from "@/data/mockData";
-import { TrendingUp, AlertCircle, CheckCircle, Clock, Loader2 } from "lucide-react";
+import { TrendingUp, AlertCircle, CheckCircle, Clock, Loader2, ArrowRight } from "lucide-react";
 import { useQdrantDeals, type QdrantDeal } from "@/hooks/useQdrantDeals";
 
 interface DashboardInfographicsProps {
@@ -206,9 +206,9 @@ const DashboardInfographics = ({ onViewDeal }: DashboardInfographicsProps) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-3xl font-bold text-foreground mb-2">Overview</h1>
+          <h1 className="text-3xl font-bold text-foreground mb-2">Portfolio Performance Dashboard</h1>
           <p className="text-muted-foreground">
-            Real-time insights into your deal pipeline and relationship portfolio
+            Track your relationship portfolio health, deal status, and key performance indicators at a glance
           </p>
         </motion.div>
 
@@ -224,10 +224,10 @@ const DashboardInfographics = ({ onViewDeal }: DashboardInfographicsProps) => {
           >
             <div className="flex items-start justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground mb-1">Successful Rate</p>
+                <p className="text-sm font-medium text-muted-foreground mb-1">Deal Success Rate</p>
                 <p className="text-3xl font-bold text-foreground">{stats.successRate}%</p>
                 <p className="text-xs text-emerald-600 mt-2">
-                  {stats.closedDeals} out of {stats.totalDeals} deals
+                  {stats.closedDeals} of {stats.totalDeals} deals progressing well
                 </p>
               </div>
               <div className="h-12 w-12 rounded-lg bg-emerald-500/10 flex items-center justify-center">
@@ -246,9 +246,9 @@ const DashboardInfographics = ({ onViewDeal }: DashboardInfographicsProps) => {
           >
             <div className="flex items-start justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground mb-1">Total Portfolio</p>
+                <p className="text-sm font-medium text-muted-foreground mb-1">Portfolio Under Management</p>
                 <p className="text-3xl font-bold text-foreground">${stats.totalValue}M</p>
-                <p className="text-xs text-blue-600 mt-2">Across all active deals</p>
+                <p className="text-xs text-blue-600 mt-2">Total deal pipeline value</p>
               </div>
               <div className="h-12 w-12 rounded-lg bg-blue-500/10 flex items-center justify-center">
                 <TrendingUp className="h-6 w-6 text-blue-600" />
@@ -266,10 +266,10 @@ const DashboardInfographics = ({ onViewDeal }: DashboardInfographicsProps) => {
           >
             <div className="flex items-start justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground mb-1">Needs Attention</p>
+                <p className="text-sm font-medium text-muted-foreground mb-1">Deals At Risk</p>
                 <p className="text-3xl font-bold text-foreground">{stats.actionNeeded + stats.blockedDeals}</p>
                 <p className="text-xs text-amber-600 mt-2">
-                  {stats.actionNeeded} action needed, {stats.blockedDeals} blocked
+                  Require immediate action or intervention
                 </p>
               </div>
               <div className="h-12 w-12 rounded-lg bg-amber-500/10 flex items-center justify-center">
@@ -288,9 +288,9 @@ const DashboardInfographics = ({ onViewDeal }: DashboardInfographicsProps) => {
           >
             <div className="flex items-start justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground mb-1">Avg Confidence</p>
+                <p className="text-sm font-medium text-muted-foreground mb-1">AI Confidence Level</p>
                 <p className="text-3xl font-bold text-foreground">{stats.avgConfidence}%</p>
-                <p className="text-xs text-cyan-600 mt-2">AI confidence score</p>
+                <p className="text-xs text-cyan-600 mt-2">Avg predicted deal success</p>
               </div>
               <div className="h-12 w-12 rounded-lg bg-cyan-500/10 flex items-center justify-center">
                 <Clock className="h-6 w-6 text-cyan-600" />
@@ -457,12 +457,14 @@ const DashboardInfographics = ({ onViewDeal }: DashboardInfographicsProps) => {
           variants={cardVariants}
           initial="hidden"
           animate="visible"
-          className="bg-primary/5 border border-primary/20 rounded-lg p-4"
+          className="bg-primary/5 border border-primary/20 rounded-lg p-4 flex items-start justify-between"
         >
-          <p className="text-sm text-muted-foreground">
-            💡 <span className="font-medium">Tip:</span> This dashboard provides a real-time overview of your portfolio health. Click on any deal in the
-            Deal Pipeline view to dive deeper into specific transactions and communication threads.
-          </p>
+          <div>
+            <p className="text-sm text-muted-foreground">
+              <span className="font-medium">Quick Actions:</span> Use the Deal Pipeline tab to manage individual transactions, review communications, and track specific deal progress. Monitor bottlenecks and take corrective action to keep your portfolio on track.
+            </p>
+          </div>
+          <ArrowRight className="h-5 w-5 text-primary flex-shrink-0 mt-0.5 ml-3" />
         </motion.div>
         </div>
       )}
