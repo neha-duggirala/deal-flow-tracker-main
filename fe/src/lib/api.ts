@@ -163,3 +163,76 @@ export const ingestAllDeals = async (): Promise<{
 
   return response.json();
 };
+
+// Draft follow-up email
+export interface DraftFollowupRequestPayload {
+  deal_id: string;
+  sector?: string;
+  parties?: string;
+  deal_title?: string;
+  bottlenecks?: string[];
+  risk_level?: string;
+  context?: string;
+}
+
+export interface DraftFollowupResponsePayload {
+  deal_id: string;
+  subject: string;
+  body: string;
+  recipient: string;
+  thread_id: string;
+}
+
+export const draftFollowup = async (
+  payload: DraftFollowupRequestPayload
+): Promise<DraftFollowupResponsePayload> => {
+  const response = await fetch(`${API_BASE_URL}/api/draft-followup`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.detail || "Failed to generate draft");
+  }
+
+  return response.json();
+};
+
+// Approve draft email (Gatekeeper HITL)
+export interface ApproveDraftRequestPayload {
+  deal_id: string;
+  thread_id: string;
+  subject: string;
+  body: string;
+  recipient: string;
+  action: "approve" | "edit";
+}
+
+export interface ApproveDraftResponsePayload {
+  deal_id: string;
+  status: string;
+  message: string;
+}
+
+export const approveDraft = async (
+  payload: ApproveDraftRequestPayload
+): Promise<ApproveDraftResponsePayload> => {
+  const response = await fetch(`${API_BASE_URL}/api/approve-draft`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.detail || "Failed to approve draft");
+  }
+
+  return response.json();
+};

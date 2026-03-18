@@ -146,3 +146,40 @@ class IngestResponse(BaseModel):
     deal_id: str
     points_created: int
     message: str
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Draft Follow-up Models
+# ═══════════════════════════════════════════════════════════════════════════
+
+class DraftFollowupRequest(BaseModel):
+    deal_id: str
+    sector: Optional[str] = ""
+    parties: Optional[str] = ""
+    deal_title: Optional[str] = ""
+    bottlenecks: List[str] = []
+    risk_level: Optional[str] = "Medium"
+    context: Optional[str] = ""
+
+
+class DraftFollowupResponse(BaseModel):
+    deal_id: str
+    subject: str
+    body: str
+    recipient: str
+    thread_id: str
+
+
+class ApproveDraftRequest(BaseModel):
+    deal_id: str
+    thread_id: str
+    subject: str
+    body: str
+    recipient: str
+    action: str = Field(description="'approve' or 'edit'")
+
+
+class ApproveDraftResponse(BaseModel):
+    deal_id: str
+    status: str
+    message: str

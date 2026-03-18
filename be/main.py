@@ -22,6 +22,10 @@ from models import (
     GatekeeperReviewResponse,
     GraphStatusResponse,
     IngestResponse,
+    DraftFollowupRequest,
+    DraftFollowupResponse,
+    ApproveDraftRequest,
+    ApproveDraftResponse,
 )
 import qdrant_service
 
@@ -335,6 +339,174 @@ async def ingest_all_deals():
         "total_points_created": total,
         "deals": results,
     }
+
+
+# ── POST /api/draft-followup ─────────────────────────────────────────
+@app.post("/api/draft-followup", response_model=DraftFollowupResponse)
+async def draft_followup(request: DraftFollowupRequest):
+    """
+    Generate a follow-up email draft for a deal using the Strategist LLM.
+    This is a lightweight endpoint that focuses on email generation
+    without running the full analysis pipeline.
+    """
+    try:
+        from brain import LLM
+        from config import MODEL_NAME
+
+        print(f"\n📧 Draft Follow-up Request:")
+        print(f"   Deal ID: {request.deal_id}")
+        print(f"   Sector: {request.sector}")
+        print(f"   Risk: {request.risk_level}")
+
+        llm_factory = LLM(provider=MODEL_NAME)
+        llm = llm_factory.get_model()
+
+        # Retrieve relevant context from Qdrant
+        context_snippets = []
+        try:
+            hits = qdrant_service.search_similar(
+                query=f"Deal {request.deal_id} {request.deal_title} follow-up",
+                k=3,
+                filter_conditions={"deal_id": request.deal_id},
+            )
+            context_snippets = [
+                h["payload"].get("text", "")
+                for h in hits
+                if h["payload"].get("text")
+            ]
+        except Exception:
+            pass
+
+        context_text = "\n".join(context_snippets) if context_snippets else "No prior context."
+        bottleneck_text = "; ".join(request.bottlenecks) if request.bottlenecks else "None identified"
+
+        from langchain_core.prompts import ChatPromptTemplate
+
+        prompt = ChatPromptTemplate.from_messages([
+            ("system", (
+                "You are a senior Sberbank Business-Development specialist drafting "
+                "a professional follow-up email for an India–Russia trade deal. "
+                "The email should be concise, actionable, and address any bottlenecks. "
+                "Output EXACTLY three fields separated by '---FIELD---':\n"
+                "1. SUBJECT: A clear email subject line\n"
+                "2. RECIPIENT: The role/name of the primary recipient\n"
+                "3. BODY: The full email body (professional tone, 150-300 words)"
+            )),
+            ("user", (
+                "Deal ID: {deal_id}\n"
+                "Deal Title: {deal_title}\n"
+                "Sector: {sector}\n"
+                "Parties: {parties}\n"
+                "Risk Level: {risk_level}\n"
+                "Bottlenecks: {bottlenecks}\n"
+                "Additional Context: {context}\n"
+                "User Notes: {user_context}\n\n"
+                "Draft a follow-up email. Use the format:\n"
+                "SUBJECT: ...\n---FIELD---\n"
+                "RECIPIENT: ...\n---FIELD---\n"
+                "BODY: ..."
+            )),
+        ])
+
+        chain = prompt | llm
+        result = chain.invoke({
+            "deal_id": request.deal_id,
+            "deal_title": request.deal_title or "",
+            "sector": request.sector or "",
+            "parties": request.parties or "",
+            "risk_level": request.risk_level or "Medium",
+            "bottlenecks": bottleneck_text,
+            "context": context_text,
+            "user_context": request.context or "",
+        })
+
+        # Parse the LLM output
+        raw = result.content if hasattr(result, "content") else str(result)
+        parts = raw.split("---FIELD---")
+
+        subject = "Follow-up: " + (request.deal_title or request.deal_id)
+        recipient = "Deal Counterparty"
+        body = raw
+
+        if len(parts) >= 3:
+            subject_part = parts[0].strip()
+            recipient_part = parts[1].strip()
+            body_part = parts[2].strip()
+            subject = subject_part.replace("SUBJECT:", "").strip()
+            recipient = recipient_part.replace("RECIPIENT:", "").strip()
+            body = body_part.replace("BODY:", "").strip()
+        elif len(parts) == 1:
+            # Try line-based parsing as fallback
+            lines = raw.strip().split("\n")
+            for line in lines:
+                if line.strip().upper().startswith("SUBJECT:"):
+                    subject = line.split(":", 1)[1].strip()
+                elif line.strip().upper().startswith("RECIPIENT:"):
+                    recipient = line.split(":", 1)[1].strip()
+
+            # Body is everything after the headers
+            body_start = raw.find("BODY:")
+            if body_start != -1:
+                body = raw[body_start + 5:].strip()
+
+        thread_id = f"draft_{request.deal_id}_{uuid.uuid4().hex[:8]}"
+
+        print(f"✅ Draft generated: {subject[:50]}...")
+
+        return DraftFollowupResponse(
+            deal_id=request.deal_id,
+            subject=subject,
+            body=body,
+            recipient=recipient,
+            thread_id=thread_id,
+        )
+
+    except Exception as e:
+        print(f"\n❌ Error in /api/draft-followup: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Draft generation failed: {str(e)}")
+
+
+# ── POST /api/approve-draft ──────────────────────────────────────────
+@app.post("/api/approve-draft", response_model=ApproveDraftResponse)
+async def approve_draft(request: ApproveDraftRequest):
+    """
+    Gatekeeper HITL: approve an email draft and persist it.
+    Stores the approved draft in Qdrant as a sent communication.
+    """
+    try:
+        print(f"\n✉️  Draft Approval:")
+        print(f"   Deal ID: {request.deal_id}")
+        print(f"   Action: {request.action}")
+        print(f"   Recipient: {request.recipient}")
+
+        # Store the approved draft in Qdrant as a sent communication
+        qdrant_service.upsert_text(
+            text=f"[EMAIL SENT] Subject: {request.subject}\nTo: {request.recipient}\n\n{request.body}",
+            metadata={
+                "deal_id": request.deal_id,
+                "type": "sent_email",
+                "recipient": request.recipient,
+                "subject": request.subject,
+                "thread_id": request.thread_id,
+                "action": request.action,
+            },
+        )
+
+        print(f"✅ Draft approved and stored for deal {request.deal_id}")
+
+        return ApproveDraftResponse(
+            deal_id=request.deal_id,
+            status="sent",
+            message=f"Email draft approved and sent to {request.recipient}",
+        )
+
+    except Exception as e:
+        print(f"\n❌ Error in /api/approve-draft: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Draft approval failed: {str(e)}")
 
 
 # ═══════════════════════════════════════════════════════════════════════════
